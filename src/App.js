@@ -12,7 +12,8 @@ function App() {
   }
   useEffect(() => {
     if (shouldLoad) {
-      shouldLoad = false;
+      // eslint-disable-next-line
+      shouldLoad = false.current;
       genreateJoke();
     }
   }, []);
