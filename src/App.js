@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import "./App.css";
 
 function App() {
+  const [joke, setJoke] = useState("");
+  let shouldLoad = true;
+
+  async function genreateJoke() {
+    await fetch("https://api.chucknorris.io/jokes/random")
+      .then((response) => response.json())
+      .then((data) => setJoke(data.value));
+  }
+  useEffect(() => {
+    if (shouldLoad) {
+      shouldLoad = false;
+      genreateJoke();
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="container">
+        <h3>Don't Laugh Challenge!</h3>
+        <div className="joke">{joke}</div>
+        <button className="btn" onClick={() => genreateJoke()}>
+          Generate Joke
+        </button>
+      </div>
+    </>
   );
 }
 
